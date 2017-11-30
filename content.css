@@ -1,0 +1,11 @@
+.jcrop-box {
+	all: initial !important;
+}
+
+.jcrop-selection {
+	z-index: 2000 !important;
+}
+
+.jcrop-shades {
+	z-index: 2000 !important;
+}
