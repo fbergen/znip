@@ -14,7 +14,7 @@ chrome.browserAction.onClicked.addListener(function() {
 
 chrome.runtime.onMessage.addListener(function(req, sender) {
   chrome.tabs.captureVisibleTab(function(img) {
-    cropImage(img, req.selection, function(cropped) {
+    cropImage(img, req.selection, req.scroll, function(cropped) {
       var viewTabUrl = chrome.extension.getURL('edit.html?id=' + 
 																						   Math.random().toString(36).substr(2, 9));
       var targetId = null;
@@ -40,11 +40,12 @@ chrome.runtime.onMessage.addListener(function(req, sender) {
 });
 
 
-function cropImage(img, s, done) {
-  var left = s.x 
-  var top = s.y 
-  var width = s.w 
-  var height = s.h 
+function cropImage(img, s, scroll, done) {
+  var r = devicePixelRatio
+  var left = (s.x - scroll.x) * r
+  var top = (s.y - scroll.y) * r
+  var width = s.w * r
+  var height = s.h * r
 
   canvas = document.createElement('canvas')
   document.body.appendChild(canvas)
