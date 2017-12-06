@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(function(req, sender) {
         views = chrome.extension.getViews({type: 'tab', tabId: tabId})
         console.log(views)
         if (views.length >= 1) {
-            views[0].setScreenshotUrl(1, cropped);
+            views[0].setScreenshotUrl(cropped);
         }
       });
   

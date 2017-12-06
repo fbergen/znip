@@ -3,14 +3,20 @@
   <script src="edit.js"></script>
   <link href="edit.css" rel="stylesheet" type="text/css">
   <body>
-    <img id="target1" src="">
+    <canvas id="edit-canvas" width="490" height="220">
+    </canvas>
+
     <div id="edit-panel-wrapper">
       <div id="edit-panel">
         <ul>
           <li><a id='copy' href='#' >Copy to clipboard</a></li>
           <li><a id='upload' href='#'>Upload to drive (coming soon!)</a></li>
         </ul>
+        <ul id="line-list">
+        Lines:
+        </ul>
       </div>
     </div>
+    <img style="display:none" id="original" src="">
   </body>
 </html>
