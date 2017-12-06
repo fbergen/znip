@@ -9,8 +9,7 @@ jQuery(function($){
   $('#jcrop-wrapper').on('cropend',function(e,s,c){
     console.log(e,s,c);
     chrome.runtime.sendMessage({
-      action: 'cropend', selection: c,
-      scroll: {x: window.scrollX, y: window.scrollY}
+      action: 'cropend', selection: c
     });
     jcrop_api.destroy()
   });
