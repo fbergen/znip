@@ -1,0 +1,17 @@
+#edit-panel-wrapper {
+  position: fixed;
+  right: 10px;
+  top: 50px;
+}
+
+#edit-panel {
+  position: relative;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a:visited {
+  text-decoration: none; color: blue;
+}

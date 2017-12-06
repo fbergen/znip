@@ -10,6 +10,14 @@
     "default_icon": "resources/icon.png",
     "default_title": "Znip!"
   },
+  "icons": {
+    "16": "resources/icon_16.png",
+    "24": "resources/icon_24.png",
+    "32": "resources/icon_32.png",
+    "48": "resources/icon_48.png",
+    "128": "resources/icon_128.png",
+    "256": "resources/icon_256.png"
+  },
   "permissions": [
     "activeTab"
   ],
