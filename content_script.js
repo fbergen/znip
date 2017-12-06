@@ -1,7 +1,8 @@
+var jcrop_api;
+
 jQuery(function($){
-  var jcrop_api;
   $('body').append('<div id="jcrop-wrapper"></div>')
-  $('#jcrop-wrapper').Jcrop({}, function() {
+  $('#jcrop-wrapper').Jcrop({handles: []}, function() {
     jcrop_api = this
   });
 
