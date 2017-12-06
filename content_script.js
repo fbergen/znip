@@ -14,5 +14,4 @@ jQuery(function($){
     jcrop_api.destroy()
   });
 
-
 });
