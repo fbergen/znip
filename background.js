@@ -42,6 +42,9 @@ chrome.runtime.onMessage.addListener(function(req, sender) {
 
 function cropImage(img, s, scroll, done) {
   var r = devicePixelRatio
+  // Don't need to look at scroll position now that we insert a new wrapper div which spans the full page.
+  scroll.x = 0
+  scroll.y = 0
   var left = (s.x - scroll.x) * r
   var top = (s.y - scroll.y) * r
   var width = s.w * r
