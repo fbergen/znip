@@ -54,14 +54,15 @@ function cropImage(img, s, done) {
 
   canvas = document.createElement('canvas')
   document.body.appendChild(canvas)
-  canvas.width = width
-  canvas.height = height
+  // Don't scale with devicePixelRatio for the target image.
+  canvas.width = s.w
+  canvas.height = s.h
 
   image = new Image()
   image.src = img
   image.onload = function(){
     ctx = canvas.getContext('2d');
-    ctx.drawImage(image, left, top, width, height, 0, 0, width, height);
+    ctx.drawImage(image, left, top, width, height, 0, 0, s.w, s.h);
     var cropped = canvas.toDataURL('image/png')
     done(cropped)
   }
