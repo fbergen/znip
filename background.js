@@ -1,36 +1,54 @@
+var oauth = ChromeExOAuth.initBackgroundPage({
+    'request_url' : 'https://www.google.com/accounts/OAuthGetRequestToken',
+    'authorize_url' : 'https://www.google.com/accounts/OAuthAuthorizeToken',
+    'access_url' : 'https://www.google.com/accounts/OAuthGetAccessToken',
+    'consumer_key' : 'anonymous',
+    'consumer_secret' : 'anonymous',
+    'scope' : 'http://www.google.com/m8/feeds/',
+    'app_name' : 'Sample - OAuth Contacts'
+});
+
+
 function embedJcrop() {
-    var page = chrome.extension.getBackgroundPage();
-    chrome.tabs.insertCSS(null, {file: "content.css"}, function() {
-      chrome.tabs.insertCSS(null, {file: "vendor/Jcrop.min.css"}, function() {
-        chrome.tabs.executeScript(null, {file: "vendor/jquery-3.2.1.min.js"}, function() {
-          chrome.tabs.executeScript(null, {file: "vendor/Jcrop.min.js"}, function() {
-              chrome.tabs.executeScript(null, {file: "content_script.js"}, function() {
-            });
+  var page = chrome.extension.getBackgroundPage();
+  chrome.tabs.insertCSS(null, {file: "content.css"}, function() {
+    chrome.tabs.insertCSS(null, {file: "vendor/Jcrop.min.css"}, function() {
+      chrome.tabs.executeScript(null, {file: "vendor/jquery-3.2.1.min.js"}, function() {
+        chrome.tabs.executeScript(null, {file: "vendor/Jcrop.min.js"}, function() {
+          chrome.tabs.executeScript(null, {file: "content_script.js"}, function() {
           });
         });
       });
     });
+  });
 
 
-  chrome.runtime.onMessage.addListener(function(req, sender) {
+  chrome.runtime.onMessage.addListener(function onMessageListener(req, sender) {
+    chrome.runtime.onMessage.removeListener(onMessageListener);
+
     chrome.tabs.captureVisibleTab(function(img) {
       cropImage(img, req.selection, function(cropped) {
         var targetId = null;
-        chrome.tabs.onUpdated.addListener(function listener(tabId, changedProps) {
+        var viewTabUrl = chrome.extension.getURL('edit.html?id=' + Math.random().toString(36).substr(2, 9));
+        chrome.tabs.onUpdated.addListener(function onUpdatedListener(tabId, changedProps) {
           if (tabId != targetId || changedProps.status != "complete")
             return;
     
-          chrome.tabs.onUpdated.removeListener(listener);
+          chrome.tabs.onUpdated.removeListener(onUpdatedListener);
     
           views = chrome.extension.getViews({type: 'tab', tabId: tabId})
           console.log(views)
-          if (views.length >= 1) {
-              views[0].setScreenshotUrl(cropped);
+          for (var i = 0; i < views.length; i++) {
+            var view = views[i]
+            if (view.location.href == viewTabUrl && !view.imageAlreadySet) {
+              view.setScreenshotUrl(cropped);
+              view.processed = true
+            }
           }
         });
     
         var createProperties = {}
-        createProperties.url = chrome.extension.getURL('edit.html?id=' + Math.random().toString(36).substr(2, 9));
+        createProperties.url = viewTabUrl
         chrome.tabs.query({active: true}, function(tabs) {
           if (tabs.length > 0 && tabs[0].index) {
             console.log(tabs[0].index)
@@ -68,5 +86,8 @@ function cropImage(img, s, done) {
   }
 }
 
+window.onload = function() {
+  ChromeExOAuth.initCallbackPage();
+}
 
 chrome.browserAction.onClicked.addListener(embedJcrop)
