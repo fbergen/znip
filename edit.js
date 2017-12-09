@@ -119,9 +119,20 @@ jQuery(function($){
 			document.getElementById('edit-canvas').toBlob(function(blob) {
 				blob.name = "Znip-" + new Date().toISOString().replace(/[:.]/g,"");
 				GDocs.prototype.upload(blob, function(a) {
-					resp = JSON.parse(a)
-					window.open(resp["alternateLink"], "_blank");
-			   }, true);
+						resp = JSON.parse(a)
+						chrome.storage.sync.get({
+  					  sharing: 'me',
+  					  domain_name: ""
+  					}, function(items) {
+							var fileId = resp["id"]
+							if (items.sharing == "anyone") {
+								GDocs.prototype.permissioninsert(fileId, "anyone")
+							} else if (items.sharing == "domain") {
+								GDocs.prototype.permissioninsert(fileId, "domain", items.domain_name)
+							}
+							window.open(resp["alternateLink"], "_blank");
+  					});
+			    }, true);
 			}, "image/jpeg", 0.75);
 		});
 	});

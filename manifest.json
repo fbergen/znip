@@ -20,16 +20,16 @@
     "128": "resources/icon_128.png",
     "256": "resources/icon_256.png"
   },
+	"options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+	},
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjL9mx+m0JY0C4gq7NPrXWSLor2PrEy5X8Anx1nzHmw+M+O54v6lvvpd0ioPY+asVtsY3E8661wzSgpjEz4AgzwahKrYVm+4uvRsj5goN31tCS61jbUCmh/pFdJfh+JjeecilGHWU8YR7EB/TQ+38OWexjqfdqvdAqjMwZcYFgyJ3lJuZ2cFItYEQrnL5Gid9JHffzyAF+WUb70w7HxUHgtJ/yN+ZBIscAk58Ca/71iR3UlcHpj8HjGuNLsOX2T9UKXxAiIvVlV95ct09XhXnJz6Z95SJmW7f3003ebN0EYsqeycMNb10ZaG3hOJmUWgdz/ntxbnqRJn43o89/nklVwIDAQAB",
   "permissions": [
     "identity",
     "tabs", 
-    "https://docs.google.com/feeds/*",
     "activeTab",
-    "https://www.google.com/accounts/OAuthGetRequestToken",
-    "https://www.google.com/accounts/OAuthAuthorizeToken",
-    "https://www.google.com/accounts/OAuthGetAccessToken",
-    "<all_urls>"
+		"storage"
   ],
 	"oauth2": {
     "client_id": "532586903873-pu015775u8rgjaooh0oit1vbgc7osjnj.apps.googleusercontent.com",

@@ -124,9 +124,6 @@ GDocs.prototype.upload = function(blob, callback, retry) {
         this.removeCachedAuthToken(
             this.auth.bind(this, true, 
                 this.upload.bind(this, blob, callback, false)));
-      } else {
-        document.getElementById('main').classList.remove('uploading');
-        throw new Error('Error: '+response);
       }
     }.bind(this);
 
@@ -142,4 +139,22 @@ GDocs.prototype.upload = function(blob, callback, retry) {
 
 };
 
+/**
+ * Insert permissions
+ */
+GDocs.prototype.permissioninsert = function(fileId, type, domain_name, callback) {
+  var onComplete = function(response) {
+			if (callback) {
+	   		callback.apply(this, [response]);
+			}
+    }.bind(this);
 
+
+  var setter = new PermissionController({
+    token: this.accessToken,
+    onComplete: onComplete,
+  });
+
+  setter.insert(fileId, type, domain_name);
+
+}
