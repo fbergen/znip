@@ -13,8 +13,6 @@ var isMouseDown = false;
 function drawBackground() {
   canvas = document.getElementById('edit-canvas')
   image = document.getElementById("original")
-  console.log(image)
-  console.log(image.width)
   canvas.width = image.width
   canvas.height = image.height
   ctx = canvas.getContext('2d');
@@ -114,4 +112,21 @@ jQuery(function($){
       ctx.stroke()
     })
   }
+
+
+	$('#upload').click(function () {
+		GDocs.prototype.auth(true, function() {
+			document.getElementById('edit-canvas').toBlob(function(blob) {
+				blob.name = "Znip-" + new Date().toISOString().replace(/[:.]/g,"");
+				GDocs.prototype.upload(blob, function(a) {
+					resp = JSON.parse(a)
+					window.open(resp["alternateLink"], "_blank");
+			   }, true);
+			}, "image/jpeg", 0.75);
+		});
+	});
 });
+
+
+
+
