@@ -74,12 +74,22 @@ jQuery(function($){
   }
 
   function addLine(startPos) {
-    shapes.push(new Ellipse({
-      strokeStyle: 'blue',
-      lineWidth: 4,
-      canvas: canvas,
-      startPos: startPos
-    }));
+    var dshape = document.getElementById('draw-shape').value;
+    if (dshape == 'Ellipse') {
+      shapes.push(new Ellipse({
+        strokeStyle: 'blue',
+        lineWidth: 4,
+        canvas: canvas,
+        startPos: startPos
+      }));
+    } else {
+      shapes.push(new Pencil({
+        strokeStyle: 'blue',
+        lineWidth: 4,
+        canvas: canvas,
+        startPos: startPos
+      }));
+    }
     renderPanel()
   }
 
@@ -134,6 +144,8 @@ jQuery(function($){
       }, "image/jpeg", 0.75);
     });
   });
+
+
 });
 
 
