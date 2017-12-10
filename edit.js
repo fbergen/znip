@@ -8,7 +8,7 @@ function setScreenshotUrl(url) {
 
 var ctx = null;
 var canvas = null;
-var coords = new Array();
+var shapes = new Array();
 var isMouseDown = false;
 
 function drawBackground() {
@@ -42,9 +42,8 @@ jQuery(function($){
   
   $('#edit-canvas').mousedown(function (e) {
     // Record position
-    addLine()
+    addLine(adjustPosToCanvas([e.pageX, e.pageY]))
     isMouseDown = true
-    addCoord(e.pageX, e.pageY)
     draw()
   })
   
@@ -57,7 +56,7 @@ jQuery(function($){
   
   $('#edit-canvas').mousemove(function (e) {
     if (isMouseDown) {
-      addCoord(e.pageX, e.pageY)
+      shapes[shapes.length - 1].addPos(adjustPosToCanvas([e.pageX, e.pageY]))
       draw()
     }
   })
@@ -67,13 +66,25 @@ jQuery(function($){
     removeLine(index)
   });
 
-  function addLine() {
-    coords.push(new Array())
+  function adjustPosToCanvas(pos) {
+    var rect = canvas.getBoundingClientRect();
+    x = pos[0] - rect.left
+    y = pos[1] - rect.top
+    return [x, y]
+  }
+
+  function addLine(startPos) {
+    shapes.push(new Pencil({
+      strokeStyle: 'blue',
+      lineWidth: 4,
+      canvas: canvas,
+      startPos: startPos
+    }));
     renderPanel()
   }
 
   function removeLine(index) {
-    coords.splice(index, 1)
+    shapes.splice(index, 1)
     renderPanel()
     draw()
   }
@@ -82,15 +93,9 @@ jQuery(function($){
     $('#line-list li').remove()
     lines = $('#line-list')
     // Re-render the lines.
-    coords.forEach(function(line) {
+    shapes.forEach(function(line) {
       lines.append("<li><a href='#'>[x] line</a></li>")
     })
-  }
-  
-  function addCoord(x, y) {
-    var rect = canvas.getBoundingClientRect();
-    coords[coords.length -1].push([x - rect.left,
-                                   y - rect.top])
   }
   
   function resetCanvas() {
@@ -101,18 +106,8 @@ jQuery(function($){
   
   function draw() {
     resetCanvas()
-  
-    ctx.strokeStyle = 'blue'
-    ctx.lineWidth = 2
-    coords.forEach(function(line) {
-      if (line.length > 0) {
-        ctx.beginPath()
-        ctx.moveTo(line[0][0], line[0][1])
-      }
-      for (i = 1; i < line.length; i++) {
-        ctx.lineTo(line[i][0], line[i][1])
-      }
-      ctx.stroke()
+    shapes.forEach(function(shape) {
+      shape.draw()
     })
   }
 
