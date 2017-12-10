@@ -1,5 +1,6 @@
+var Shape = {}
 
-function Pencil(options) {
+Shape.Pencil = function Pencil(options) {
   this.strokeStyle = options.strokeStyle;
   this.canvas = options.canvas;
 
@@ -8,11 +9,11 @@ function Pencil(options) {
   this.addPos(options.startPos)
 };
 
-Pencil.prototype.addPos = function(pos) {
+Shape.Pencil.prototype.addPos = function(pos) {
   this.coords.push(pos)
 };
 
-Pencil.prototype.draw = function() {
+Shape.Pencil.prototype.draw = function() {
   ctx = this.canvas.getContext('2d');
   ctx.strokeStyle = this.strokeStyle
   ctx.lineWidth = this.lineWidth
@@ -29,7 +30,7 @@ Pencil.prototype.draw = function() {
   ctx.stroke()
 };
 
-function Ellipse(options) {
+Shape.Ellipse = function Ellipse(options) {
   this.strokeStyle = options.strokeStyle;
   this.canvas = options.canvas;
 
@@ -38,11 +39,11 @@ function Ellipse(options) {
   this.startPos = options.startPos
 };
 
-Ellipse.prototype.addPos = function(pos) {
+Shape.Ellipse.prototype.addPos = function(pos) {
   this.endPos = pos
 };
 
-Ellipse.prototype.draw = function() {
+Shape.Ellipse.prototype.draw = function() {
   ctx = this.canvas.getContext('2d');
   ctx.strokeStyle = this.strokeStyle
   ctx.lineWidth = this.lineWidth

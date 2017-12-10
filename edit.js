@@ -83,11 +83,7 @@ jQuery(function($){
       canvas: canvas,
       startPos: startPos
     };
-    if (dshape == 'Ellipse') {
-      shapes.push(new Ellipse(options));
-    } else {
-      shapes.push(new Pencil(options));
-    }
+    shapes.push(new Shape[dshape](options));
     renderPanel()
   }
 
