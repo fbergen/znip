@@ -74,7 +74,7 @@ jQuery(function($){
   }
 
   function addLine(startPos) {
-    shapes.push(new Pencil({
+    shapes.push(new Ellipse({
       strokeStyle: 'blue',
       lineWidth: 4,
       canvas: canvas,
