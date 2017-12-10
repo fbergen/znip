@@ -61,9 +61,9 @@ jQuery(function($){
     }
   })
 
-  $('#line-list').on('click', 'li', function() {
-    var index = $('#line-list li').index( this );
-    removeLine(index)
+  $('#shapes-list').on('click', 'li', function() {
+    var index = $('#shapes-list li').index( this );
+    removeShape(index)
   });
 
   function adjustPosToCanvas(pos) {
@@ -90,11 +90,11 @@ jQuery(function($){
   }
   
   function renderPanel() {
-    $('#line-list li').remove()
-    lines = $('#line-list')
-    // Re-render the lines.
-    shapes.forEach(function(line) {
-      lines.append("<li><a href='#'>[x] line</a></li>")
+    $('#shapes-list li').remove()
+    shapes_list = $('#shapes-list')
+    // Re-render the list.
+    shapes.forEach(function(shape) {
+      shapes_list.append("<li><a href='#'>[x] line</a></li>")
     })
   }
   
