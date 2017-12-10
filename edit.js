@@ -91,7 +91,7 @@ jQuery(function($){
     renderPanel()
   }
 
-  function removeLine(index) {
+  function removeShape(index) {
     shapes.splice(index, 1)
     renderPanel()
     draw()
@@ -102,7 +102,8 @@ jQuery(function($){
     shapes_list = $('#shapes-list')
     // Re-render the list.
     shapes.forEach(function(shape) {
-      shapes_list.append("<li><a href='#'>[x] line</a></li>")
+      name = shape.constructor.name
+      shapes_list.append("<li><a href='#'>[x] " + name  + "</a></li>")
     })
   }
   
