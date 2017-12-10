@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Znip Upload Options</title>
+  <style>
+    body: { padding: 10px; }
+  </style>
+</head>
+
+<body>
+  Google Drive file sharing permissions:
+  <select id="sharing">
+   <option value="me">only me</option>
+   <option value="anyone">anyone can read</option>
+   <option value="domain">my domain can read</option>
+  </select>
+
+	<label id="dname-wrapper" style="display:none">
+		Domain name: <input type="text" id="dname">
+	</label>
+
+  <div id="status"></div>
+  <button id="save">Save</button>
+
+  <script src="options.js"></script>
+</body>
+</html>
