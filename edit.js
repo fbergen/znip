@@ -75,20 +75,18 @@ jQuery(function($){
 
   function addLine(startPos) {
     var dshape = document.getElementById('draw-shape').value;
+    var lineWidth = document.getElementById('line-width').value;
+    var strokeStyle = document.getElementById('stroke-style').value;
+    var options = {
+      strokeStyle: strokeStyle,
+      lineWidth: lineWidth,
+      canvas: canvas,
+      startPos: startPos
+    };
     if (dshape == 'Ellipse') {
-      shapes.push(new Ellipse({
-        strokeStyle: 'blue',
-        lineWidth: 4,
-        canvas: canvas,
-        startPos: startPos
-      }));
+      shapes.push(new Ellipse(options));
     } else {
-      shapes.push(new Pencil({
-        strokeStyle: 'blue',
-        lineWidth: 4,
-        canvas: canvas,
-        startPos: startPos
-      }));
+      shapes.push(new Pencil(options));
     }
     renderPanel()
   }
