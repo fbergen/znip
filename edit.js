@@ -7,6 +7,7 @@ function setScreenshotUrl(url) {
 }
 
 var ctx = null;
+var canvas = null;
 var coords = new Array();
 var isMouseDown = false;
 
@@ -87,7 +88,9 @@ jQuery(function($){
   }
   
   function addCoord(x, y) {
-    coords[coords.length -1].push([x, y])
+    var rect = canvas.getBoundingClientRect();
+    coords[coords.length -1].push([x - rect.left,
+                                   y - rect.top])
   }
   
   function resetCanvas() {
@@ -114,28 +117,28 @@ jQuery(function($){
   }
 
 
-	$('#upload').click(function () {
-		GDocs.prototype.auth(true, function() {
-			document.getElementById('edit-canvas').toBlob(function(blob) {
-				blob.name = "Znip-" + new Date().toISOString().replace(/[:.]/g,"");
-				GDocs.prototype.upload(blob, function(a) {
-						resp = JSON.parse(a)
-						chrome.storage.sync.get({
-  					  sharing: 'me',
-  					  domain_name: ""
-  					}, function(items) {
-							var fileId = resp["id"]
-							if (items.sharing == "anyone") {
-								GDocs.prototype.permissioninsert(fileId, "anyone")
-							} else if (items.sharing == "domain") {
-								GDocs.prototype.permissioninsert(fileId, "domain", items.domain_name)
-							}
-							window.open(resp["alternateLink"], "_blank");
-  					});
-			    }, true);
-			}, "image/jpeg", 0.75);
-		});
-	});
+  $('#upload').click(function () {
+    GDocs.prototype.auth(true, function() {
+      document.getElementById('edit-canvas').toBlob(function(blob) {
+        blob.name = "Znip-" + new Date().toISOString().replace(/[:.]/g,"");
+        GDocs.prototype.upload(blob, function(a) {
+            resp = JSON.parse(a)
+            chrome.storage.sync.get({
+              sharing: 'me',
+              domain_name: ""
+            }, function(items) {
+              var fileId = resp["id"]
+              if (items.sharing == "anyone") {
+                GDocs.prototype.permissioninsert(fileId, "anyone")
+              } else if (items.sharing == "domain") {
+                GDocs.prototype.permissioninsert(fileId, "domain", items.domain_name)
+              }
+              window.open(resp["alternateLink"], "_blank");
+            });
+          }, true);
+      }, "image/jpeg", 0.75);
+    });
+  });
 });
 
 
