@@ -9,10 +9,15 @@ function cropend(e, s, c) {
 }
 
 jQuery(function($){
-  $('body').append('<div id="jcrop-wrapper"></div>')
-  $('#jcrop-wrapper').Jcrop({handles: []}, function() {
-    jcrop_api = this
-  });
+  if ($('#jcrop-wrapper').length > 0) {
+    cropend(null, null, null)
+    return;
+  } else {
+    $('body').append('<div id="jcrop-wrapper"></div>')
+    $('#jcrop-wrapper').Jcrop({handles: []}, function() {
+      jcrop_api = this
+    });
 
-  $('#jcrop-wrapper').one('cropend', cropend)
+    $('#jcrop-wrapper').one('cropend', cropend)
+  }
 });
