@@ -1,7 +1,7 @@
 {
   "name": "Znip",
-  "version": "0.0.0.4",
-  "description": ".",
+  "version": "0.0.0.5",
+  "description": "Take, annotate, share screenshots! It's as simple as that :)",
   "background": {
     "persistent": false,
     "scripts": [
