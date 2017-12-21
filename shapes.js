@@ -6,11 +6,14 @@ Shape.Pencil = function Pencil(options) {
 
   this.lineWidth = options.lineWidth;
   this.coords = new Array();
-  this.addPos(options.startPos)
+  this.coords.push(options.startPos)
 };
 
-Shape.Pencil.prototype.addPos = function(pos) {
-  this.coords.push(pos)
+Shape.Pencil.prototype.addPos = function(isMouseDown, pos) {
+  if (isMouseDown) {
+    this.coords.push(pos)
+  }
+  return isMouseDown
 };
 
 Shape.Pencil.prototype.draw = function() {
@@ -21,7 +24,6 @@ Shape.Pencil.prototype.draw = function() {
 
   if (coords.length > 0) {
     ctx.beginPath()
-    console.log(coords)
     ctx.moveTo(coords[0][0], coords[0][1])
   }
   for (i = 1; i < coords.length; i++) {
@@ -39,8 +41,11 @@ Shape.Ellipse = function Ellipse(options) {
   this.startPos = options.startPos
 };
 
-Shape.Ellipse.prototype.addPos = function(pos) {
-  this.endPos = pos
+Shape.Ellipse.prototype.addPos = function(isMouseDown, pos) {
+  if (isMouseDown) {
+    this.endPos = pos
+  }
+  return isMouseDown
 };
 
 Shape.Ellipse.prototype.draw = function() {
@@ -68,8 +73,11 @@ Shape.Arrow = function Arrow(options) {
   this.startPos = options.startPos
 };
 
-Shape.Arrow.prototype.addPos = function(pos) {
-  this.endPos = pos
+Shape.Arrow.prototype.addPos = function(isMouseDown, pos) {
+  if (isMouseDown) {
+    this.endPos = pos
+  }
+  return isMouseDown
 };
 
 Shape.Arrow.prototype.draw = function() {
@@ -111,4 +119,36 @@ function arrowhead(a, b) {
   return [v1, v2]
 }
 
+Shape.Text = function Text(options) {
+  this.strokeStyle = options.strokeStyle;
+  this.canvas = options.canvas;
 
+  this.lineWidth = options.lineWidth;
+  this.pos = options.startPos
+  // One string per line.
+  this.text = new Array();
+  this.text.push("")
+};
+
+Shape.Text.prototype.addPos = function(isMouseDown, pos) {
+  return false;
+};
+
+Shape.Text.prototype.onKeyPress = function(key) {
+  if (key == "Enter") {
+    this.text.push("")
+  } else {
+    this.text[this.text.length - 1] += key
+  }
+  console.log(this.text)
+}
+
+Shape.Text.prototype.draw = function() {
+  ctx = this.canvas.getContext('2d');
+  ctx.fillStyle = this.strokeStyle
+  ctx.font = "20px Georgia"
+  s = this.pos;
+  for (i = 0; i < this.text.length; i++) {
+    ctx.fillText(this.text[i], s[0], s[1] + i * 20)
+  }
+};

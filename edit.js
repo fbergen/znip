@@ -41,7 +41,6 @@ jQuery(function($){
 
   
   $('#edit-canvas').mousedown(function (e) {
-    // Record position
     addLine(adjustPosToCanvas([e.pageX, e.pageY]))
     isMouseDown = true
     draw()
@@ -55,8 +54,19 @@ jQuery(function($){
   })
   
   $('#edit-canvas').mousemove(function (e) {
-    if (isMouseDown) {
-      shapes[shapes.length - 1].addPos(adjustPosToCanvas([e.pageX, e.pageY]))
+    c = getCurrentShape()
+    if (c) {
+      changed = c.addPos(isMouseDown, adjustPosToCanvas([e.pageX, e.pageY]))
+      if (changed) {
+        draw()
+      }
+    }
+  })
+
+  $(document).keypress(function(e) {
+    c = getCurrentShape()
+    if (c.onKeyPress) {
+      c.onKeyPress(e.key)
       draw()
     }
   })
@@ -65,6 +75,10 @@ jQuery(function($){
     var index = $('#shapes-list li').index( this );
     removeShape(index)
   });
+
+  function getCurrentShape() {
+    return shapes[shapes.length - 1]
+  }
 
   function adjustPosToCanvas(pos) {
     var rect = canvas.getBoundingClientRect();
