@@ -67,12 +67,15 @@ function cropImage(img, s, done) {
     // Don't scale with devicePixelRatio for the target image.
     var left = ((s && s.x) || 0) * r
     var top = ((s && s.y) || 0) * r
-    var width = ((s && s.w)|| image.width) * r
-    var height = ((s && s.h) || image.height) * r
-    console.log(left, top, width, height)
+    var width = ((s && s.w * r) || image.width)
+    var height = ((s && s.h * r) || image.height)
 
-    canvas.width = (s && s.w) || image.width
-    canvas.height = (s && s.h) || image.height
+    canvas.width = width / r
+    canvas.height = height / r
+
+    console.log("crop:", left, top, width, height)
+    console.log("destination:", 0, 0, canvas.width, canvas.height)
+    console.log("devicePixelRatio: ", r)
     ctx = canvas.getContext('2d');
     ctx.drawImage(image,
                   left, top, width, height,
